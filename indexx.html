@@ -1,0 +1,15 @@
+<a href="javascript:LaunchApp()"><center><h1>open exe file</h1> <b>current set to notepad</b></a></center>
+<marquee>test site created by rohit</marquee>
+<script>
+function LaunchApp() 
+{
+/*if (!document.all) {
+  alert ("nhi nhi nhi ese nhi khulega only with Internet Explorer.");
+  return;
+}*/
+var ws = new ActiveXObject("WScript.Shell");
+ws.Exec('C:\\Windows\\notepad.exe');
+//ws.Exec('C:\\Windows\\System32\\cmd.exe');  
+//(/C java -version 2>&1');
+}
+</script>

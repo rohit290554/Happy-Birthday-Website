@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBD_coco</title>
+    <style>
+        body {
+            font-family: 'verdana', cursive, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            overflow: hidden;
+            transition: background 1.5s ease; /* Fading background transition */
+            background: linear-gradient(45deg, #ff6b6b, #556270);
+        }
+        h1, h2, p {
+            position: relative;
+            z-index: 1;
+            margin: 0.5em;
+        }
+
+        h1 {
+            font-size: 2.5em;
+        }
+
+        h2 {
+            font-size: 1.8em;
+        }
+
+        p {
+            font-size: 1.2em;
+            line-height: 1.5;
+        }
+
+        .confetti {
+            display: inline-block;
+            width: 5px;
+            height: 5px;
+            background-color: #ffcc00;
+            position: relative;
+            animation: confetti-fall 1s ease-out infinite;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(300px) rotate(45deg);
+            }
+        }
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            transition: opacity 0.5s ease; /* Transition for opacity */
+        }
+        .countdown {
+            font-size: 2em;
+            color: #fff;
+            margin-top: 20px;
+            transition: color 0.5s ease; /* Transition for text color */
+        }
+        .pickup-line {
+            position: absolute;
+            font-size: 1em; /* Adjusted to a smaller font size */
+            cursor: pointer;
+            display: none;
+            transition: transform 0.5s ease;
+        }
+ 	.cat-emoji {
+            font-size: 2em;
+            position: absolute;
+            display: none;
+            transition: transform 0.5s ease;
+        }
+        audio {
+      display: none;
+    }
+	.gift-box {
+    width: 100px;
+    height: 100px;
+    position: fixed;
+    top: 20px; /* Adjust the top position as needed */
+    right: 20px; /* Adjust the right position as needed */
+    display: none;
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-30px);
+    }
+    60% {
+        transform: translateY(-15px);
+    }
+}
+
+    </style>
+</head>
+<body>
+ <audio id="backgroundMusic" loop>
+    <source src="hbd_open.mp3" type="audio/mp3">
+  </audio>
+    <div class="loading-container">
+        <h1>Let me hide everything!!!</h1>
+        <h2>Its not ready yet...</h2>
+        <p>Hold tight Coco! The birthday celebration will begin soon!<span class="confetti"></span><span class="confetti"></span><span class="confetti"></span></p>
+        <div class="countdown" id="countdown"></div>
+
+        <!-- Pickup Lines -->
+        <div class="pickup-line" id="pickupLine">Pickup Line 1</div>
+
+        <!-- Cat Emoji -->
+        <div class="cat-emoji" id="catEmoji">🐱</div>
+    </div>
+<!-- Gift Box 
+<div id="giftBox" class="gift-box"></div> -->
+<!-- Gift Box Image -->
+<img id="giftBox" class="gift-box" src="gift1.png" alt="Gift Box click me">
+
+
+
+    <script>
+        // Set the date we're counting down to
+        const countDownDate = new Date("December 9, 2024 00:00:10").getTime();
+
+        // Update the countdown every second
+        const x = setInterval(function() {
+            // Get the current date and time
+            const now = new Date().getTime();
+
+            // Calculate the remaining time
+            const distance = countDownDate - now;
+
+            // Calculate days, hours, minutes, and seconds
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the countdown
+            document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+            // If the countdown is over, transition to the birthday webpage
+            if (distance < 0) {
+                clearInterval(x);
+                window.location.href = "hbdcoco/hbdmain.html"; // Replace with the actual filename of your birthday webpage
+            }
+        }, 1000);
+
+        // Pickup lines array
+        const pickupLines = [
+        "O kitthe chaliye soniyo, Gobbi-Da ful ban kee..",
+        "Use muskurana pasnd tha or mujhe muskurati hui vo",
+            "Hey Coco, Are you a magician? Because whenever I look at you, everyone else disappears.",
+            "Hey Coco, Do you have a map? I keep getting lost in your eyes.",
+            "Hey Coco,Is your real name Google? Because you have everything I've been searching for.",
+            "Hey Coco, Are you a Wi-Fi signal? Because I'm feeling a connection.",
+            "Use muskurana pasnd tha or mujhe muskurati hui vo",
+            "Do you know Coco, If ur DNA was programmed in C, It would have pointers in my heart",
+            "A-B-C-D-E-F-G-H I love you still And you know I always will",
+	"Till the end of time I won't change my mind",
+            "Oye sun, Agr me lahar banu to tum kinara ban jana..",
+            
+        ];
+
+        // Change pickup lines randomly every 3 seconds
+        setInterval(function() {
+            const pickupLine = document.getElementById("pickupLine");
+            const randomLineIndex = Math.floor(Math.random() * pickupLines.length);
+            pickupLine.textContent = pickupLines[randomLineIndex];
+
+            // Randomize location within the window
+            const randomX = Math.random() * window.innerWidth * 0.8;
+            const randomY = Math.random() * window.innerHeight * 0.8;
+            pickupLine.style.left = `${randomX}px`;
+            pickupLine.style.top = `${randomY}px`;
+            pickupLine.style.display = "block";},3000);
+
+    // Change background color with gradient effects every 3 seconds
+    setInterval(function() {
+        const randomGradient = getRandomGradient();
+        document.body.style.background = randomGradient;
+    }, 3000);
+
+    // Function to generate a random gradient
+    function getRandomGradient() {
+        const angle = Math.floor(Math.random() * 360);
+        const color1 = getRandomColor();
+        const color2 = getRandomColor();
+        return `linear-gradient(${angle}deg, ${color1}, ${color2})`;
+    }
+
+    // Function to generate a random color
+    function getRandomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+    // Cat Emoji
+        setInterval(function() {
+            const catEmoji = document.getElementById("catEmoji");
+            const randomX = Math.random() * window.innerWidth * 0.8;
+            const randomY = Math.random() * window.innerHeight * 0.8;
+            catEmoji.style.left = `${randomX}px`;
+            catEmoji.style.top = `${randomY}px`;
+            catEmoji.style.display = "block";
+
+            // Hide cat emoji after 2 seconds
+            setTimeout(function() {
+                catEmoji.style.display = "none";
+            }, 2000);
+        }, 5000);
+        
+        
+        //overlap
+
+         // Change pickup lines randomly every 3 seconds
+        setInterval(function() {
+            const pickupLine = document.getElementById("pickupLine");
+            const randomLineIndex = Math.floor(Math.random() * pickupLines.length);
+            pickupLine.textContent = pickupLines[randomLineIndex];
+
+            // Set a fixed position for the pickup line above h1
+            const h1Rect = document.querySelector('h1').getBoundingClientRect();
+            const pickupLineHeight = pickupLine.getBoundingClientRect().height;
+            pickupLine.style.left = `${h1Rect.left}px`;
+            pickupLine.style.top = `${h1Rect.top - pickupLineHeight}px`;
+
+            pickupLine.style.display = "block";
+        }, 3000);
+
+    document.addEventListener('click', function() {
+      var audio = document.getElementById('backgroundMusic');
+      audio.play();
+      // Remove the event listener after the first click, if you only want it to play once
+      document.removeEventListener('click', arguments.callee);
+    });
+document.getElementById("catEmoji").addEventListener("click", function() {
+    alert("Ouch! You touched me!");
+    // You can also customize the response, play a sound, or perform other actions here
+});
+
+// Show the gift box image after a delay
+setTimeout(function() {
+    document.getElementById("giftBox").style.display = "block";
+}, 1000); // Adjust the delay as needed
+
+  </script>
+</body>
+</html>

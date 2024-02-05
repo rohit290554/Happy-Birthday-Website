@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Collage</title>
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    height: 100vh;
+}
+
+#image-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: stretch;
+    align-items: stretch;
+    flex-grow: 1;
+}
+</style>
+</head>
+<body>
+    <div id="image-container"></div>
+    <script>
+const imageContainer = document.getElementById('image-container');
+const imagePaths = ['gift1.png', 'gift1.png', 'gift1.png', 'gift1.png', 'gift1.png', 'gift1.png', 'gift1.png', 'gift1.png','gift1.png', 'gift1.png', 'gift1.png', 'gift1.png', 'gift1.png', 'gift1.png', 'gift1.png'];
+
+function getRandomSize() {
+    return `${Math.floor(Math.random() * 300) + 100}px`;
+}
+
+function getRandomImagePath() {
+    return imagePaths[Math.floor(Math.random() * imagePaths.length)];
+}
+
+function createImage() {
+    const img = document.createElement('img');
+    img.src = getRandomImagePath();
+    img.style.width = getRandomSize();
+    img.style.height = getRandomSize();
+    img.style.opacity = '0';
+
+    imageContainer.appendChild(img);
+
+    fadeIn(img);
+}
+
+function fadeIn(element) {
+    let opacity = 0;
+
+    const fadeEffect = setInterval(() => {
+        if (opacity < 1) {
+            opacity += 0.01;
+            element.style.opacity = opacity;
+        } else {
+            clearInterval(fadeEffect);
+            setTimeout(() => fadeOut(element), 2000);
+        }
+    }, 10);
+}
+
+function fadeOut(element) {
+    let opacity = 1;
+
+    const fadeEffect = setInterval(() => {
+        if (opacity > 0) {
+            opacity -= 0.01;
+            element.style.opacity = opacity;
+        } else {
+            clearInterval(fadeEffect);
+            imageContainer.removeChild(element);
+            createImage();
+        }
+    }, 10);
+}
+
+function displayImages() {
+    for (let i = 0; i < 12; i++) { // Display 12 images at a time
+        createImage();
+    }
+}
+
+// Initial image display
+displayImages();
+
+// Change images every 2 seconds
+setInterval(() => {
+    imageContainer.innerHTML = ''; // Clear existing images
+    displayImages();
+}, 2000);
+</script>
+</body>
+</html>
